@@ -1,0 +1,16 @@
+1. delete every line with Note confidence
+	awk '!/NOTE Confid/' What_is_power.vtt > subtitles.SRT
+2. delete first 11 lines 
+	awk '(NR > 10) { print }' subtitles.SRT > subtitles.tmp && mv subtitles.tmp subtitles.SRT
+3. delete empty lines
+	awk '!/^[[:space:]]*$/' subtitles.SRT > subtitles.tmp && mv subtitles.tmp subtitles.SRT
+4. delete every third line
+	awk 'NR%3' subtitles.SRT > subtitles.tmp && mv subtitles.tmp subtitles.SRT
+5. add incrementing number to every line
+	awk -v var="0" 'NR%2==1{print ++var}1' subtitles.SRT > subtitles.tmp && mv subtitles.tmp subtitles.SRT
+6. add newline every four lines
+	awk 'ORS=NR%3?RS:RS RS' subtitles.SRT > subtitles.tmp && mv subtitles.tmp subtitles.SRT
+7. replace full stops for commas
+	awk '$2 =="-->" {gsub(/\./,",")} {print}' subtitles.SRT > subtitles.tmp && mv subtitles.tmp subtitles.SRT
+8. remove white space from beginning of file 
+	awk 'sub(/^ */,"")' subtitles.SRT > subtitles.tmp && mv subtitles.tmp subtitles.SRT
